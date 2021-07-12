@@ -27,7 +27,7 @@ RSpec.describe Cell do
       expect(cell.ship).to eq(nil)
       expect(cell.empty?).to eq(true)
 
-      cell.place_ship('Cruiser')
+      cell.place_ship(cruiser)
 
       expect(cell.empty?).to eq(false)
       expect(cell.ship).to eq(cruiser)
