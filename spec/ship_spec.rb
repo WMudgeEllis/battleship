@@ -25,7 +25,7 @@ RSpec.describe Ship do
 
       expect(cruiser.sunk?).to eq(false)
       cruiser.hit
-      # require 'pry';binding.pry
+
       expect(cruiser.health).to eq(2)
       cruiser.hit
 
