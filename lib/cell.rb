@@ -22,6 +22,30 @@ class Cell
 
   def fire_upon
     @fired_upon = true
-    @ship.hit
+
+    if not empty? #can change to single line syntax
+      @ship.hit
+    end
+
   end
+
+  def render(*ship)
+
+    if ship.include?(true)
+      'S'
+    elsif fired_upon? && empty?
+      'M'
+    elsif fired_upon? && !empty?
+      if @ship.sunk?
+        'X'
+      else
+        'H'
+      end
+    else
+      '.'
+
+
+    end
+  end
+
 end
