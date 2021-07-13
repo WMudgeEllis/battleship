@@ -47,16 +47,6 @@ RSpec.describe Cell do
 
     end
 
-    it 'renders S if ship is there with optional argument true' do
-      cell = Cell.new('B4')
-      cruiser = Ship.new('Cruiser', 3)
-
-      cell.place_ship(cruiser)
-
-      expect(cell.render).to eq('.')
-      expect(cell.render(true)).to eq('S')
-    end
-
     it 'renders . if cell.empty? returns true and if fired_upon false' do
       cell_1 = Cell.new('B4')
       cell_2 = Cell.new('C8')
@@ -72,6 +62,32 @@ RSpec.describe Cell do
 
       expect(cell_1.render).to eq('M')
     end
+
+  it 'renders S if ship is there with optional argument true' do
+      cell = Cell.new('B4')
+      cruiser = Ship.new('Cruiser', 3)
+
+      cell.place_ship(cruiser)
+
+      expect(cell.render).to eq('.')
+
+      cell.fire_upon
+      expect(cell.render).to eq('H')
+      expect(cell.render(true)).to eq('S')
+    end
+
+
+
+
+    it 'renders . if cell.empty? returns true and if fired_upon false' do
+      cell_1 = Cell.new('B4')
+      cell_2 = Cell.new('C8')
+      cruiser = Ship.new('Cruiser', 3)
+
+      expect(cell_1.render).to eq('.')
+    end
+
+
 
     it 'renders H if ship is there and it has been fired_upon' do
       cell_1 = Cell.new('C3')
