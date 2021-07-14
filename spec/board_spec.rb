@@ -44,7 +44,7 @@ RSpec.describe Board do
         submarine = Ship.new('Submarine', 2)
 
         board.cells
-
+        #
         expect(board.valid_placement?(cruiser, ['A1', 'A2'])).to eq(false)
         expect(board.valid_placement?(submarine, ['A2', 'A3', 'A4'])).to eq(false)
         #require 'pry'; binding.pry

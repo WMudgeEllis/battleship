@@ -24,10 +24,11 @@ class Board
 
 
   def valid_column?(ship, arr)
-    if arr.first[-1] != arr.last[-1]
-      column_range = (arr.first[-1])..(arr.last[-1])
-    end
-    column_range.to_a.length != arr.length #hits
+
+
+    board_range = ('A1'..'D4')
+    # require "pry"; binding.pry
+    board_range.each_cons(ship.length).map{|poss_arr|poss_arr}.any?{|poss_arr|poss_arr == arr}
 
   end
 
@@ -41,29 +42,22 @@ class Board
 
 
   def valid_placement?(ship, arr)
-    row_range = (arr.first.chr)..(arr.last.chr)
 
-    if arr.first[-1] != arr.last[-1] #make these different methods
-      column_range = (arr.first[-1])..(arr.last[-1]) #make these different methdods
-    end
-
-
-
-    #require 'pry'; binding.pry
-    if ship.length != arr.length
+    if !valid_length?(ship, arr)
       return false
-
-        #make sure they are consecutive by letter
-    #elsif (arr.first.chr)..(arr.last.chr)
-
-  elsif column_range.to_a.length != arr.length #hits
-      require 'pry'; binding.pry
+    elsif !valid_column?(ship, arr)
       return false
+    elsif valid_column?(ship,arr)
+      return true
+    elsif !valid_row?(ship, arr)
+      return false
+    elsif valid_row?(ship, arr)
 
-    else nil
     end
-
 
   end
+
+
+
 
 end
