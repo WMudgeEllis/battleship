@@ -22,8 +22,30 @@ class Board
     @cells.include?(coordinate.to_sym)
   end
 
-  def valid_placement?(ship, *arr)
-    false if ship.length != arr.length
+  def valid_placement?(ship, arr)
+    row_range = (arr.first.chr)..(arr.last.chr)
+
+    if arr.first[-1] != arr.last[-1] #make these different methods
+      column_range = (arr.first[-1])..(arr.last[-1]) #make these different methdods
+    end
+
+    
+
+    #require 'pry'; binding.pry
+    if ship.length != arr.length
+      return false
+
+        #make sure they are consecutive by letter
+    #elsif (arr.first.chr)..(arr.last.chr)
+
+  elsif column_range.to_a.length != arr.length #hits
+      require 'pry'; binding.pry
+      return false
+
+    else nil
+    end
+
+
   end
 
 end
