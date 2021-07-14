@@ -16,14 +16,38 @@ class Board
       x += 1
     end
   end
+
   def valid_coordinate?(coordinate)
     @cells.include?(coordinate.to_sym)
   end
-  def valid_placement(coord_1, coord_2, *coord_3)
 
+  def valid_placement?(ship, coords)
+    coords.map {|x| x.split("")}
+
+    if coords.length == ship.length
+      letters = (coords[0][0]..coords[(coords.length) -1][0]).to_a
+      numbers = (coords[0][1]..coords[(coords.length) - 1][1]).to_a
+        letters.all? {|x| x == letters[0]} && coords.each_cons(numbers[0])# returns array of consecutive nums. compare to orignal array
+
+        numbers.all? {|x| numbers == numbers[0]}
+    else
+      false
+    end
   end
 end
-
+# if x.include?(coords[0][0])
+#   return true
+# elsif x.include?(coords[0][1])
+#   return true
+# else
+#   return false
+# coords.map do |x|
+#   x.split("")
+# end
+# for coords.length |x| do
+#   letter = x[0]
+#   num = x[1]
+# end
     # @rows.each do |x|
     #   a = x * @columns.last
     #   a + @columns[0].to_s
