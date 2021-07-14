@@ -1,40 +1,63 @@
 
 class Board
-  attr_reader :cells, :rows, :columns
+  attr_reader :rows, :columns, :cells
   def initialize
     @rows = ['A', 'B', 'C', 'D']
     @columns = [1, 2, 3, 4]
     @cells = {}
   end
-  def generate_cells
-    x = 0
-    while x != @rows.length
-      (@columns.last).times do |i|
-        coordinate = @rows[x].to_s + @columns[i].to_s
+
+  def cells
+    cell_count = 0
+    while cell_count != @rows.length
+      @columns.each do |num| #needs columns to be int
+        coordinate = @rows[cell_count] + num.to_s #produces string that eq (rownum)
         @cells[coordinate.to_sym] = Cell.new(coordinate)
       end
-      x += 1
+      cell_count += 1
     end
   end
+
   def valid_coordinate?(coordinate)
     @cells.include?(coordinate.to_sym)
   end
-  def valid_placement(coord_1, coord_2, *coord_3)
+
+
+  def valid_column?(ship, arr)
+
+
+    board_range = ('A1'..'D4')
+    # require "pry"; binding.pry
+    board_range.each_cons(ship.length).map{|poss_arr|poss_arr}.any?{|poss_arr|poss_arr == arr}
 
   end
-end
 
-    # @rows.each do |x|
-    #   a = x * @columns.last
-    #   a + @columns[0].to_s
-    # end
-    # make_coordinates
-  # end
-  # def make_coordinates
-  #   @rows.each do |x|
-  #     a = x * @columns[3]
-  #     a + @columns[0].to_s
-  #     @cells
-  #   end
-  # end
-# end
+  def valid_row?(ship, arr)
+    row_range = (arr.first.chr)..(arr.last.chr)
+  end
+
+  def valid_length?(ship, arr)
+    ship.length == arr.length
+  end
+
+
+  def valid_placement?(ship, arr)
+
+    if !valid_length?(ship, arr)
+      return false
+    elsif !valid_column?(ship, arr)
+      return false
+    elsif valid_column?(ship,arr)
+      return true
+    elsif !valid_row?(ship, arr)
+      return false
+    elsif valid_row?(ship, arr)
+
+    end
+
+  end
+
+
+
+
+end
