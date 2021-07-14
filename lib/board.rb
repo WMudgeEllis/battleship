@@ -22,6 +22,24 @@ class Board
     @cells.include?(coordinate.to_sym)
   end
 
+
+  def valid_column?(ship, arr)
+    if arr.first[-1] != arr.last[-1]
+      column_range = (arr.first[-1])..(arr.last[-1])
+    end
+    column_range.to_a.length != arr.length #hits
+
+  end
+
+  def valid_row?(ship, arr)
+    row_range = (arr.first.chr)..(arr.last.chr)
+  end
+
+  def valid_length?(ship, arr)
+    ship.length == arr.length
+  end
+
+
   def valid_placement?(ship, arr)
     row_range = (arr.first.chr)..(arr.last.chr)
 
@@ -29,7 +47,7 @@ class Board
       column_range = (arr.first[-1])..(arr.last[-1]) #make these different methdods
     end
 
-    
+
 
     #require 'pry'; binding.pry
     if ship.length != arr.length
