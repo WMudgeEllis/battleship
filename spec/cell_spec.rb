@@ -104,6 +104,7 @@ RSpec.describe Cell do
     it 'renders X if ship is sunk' do
       cell_2 = Cell.new('C3')
       cruiser = Ship.new('Cruiser', 3)
+
       cell_2.place_ship(cruiser)
       cell_2.fire_upon
       cell_2.fire_upon
