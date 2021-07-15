@@ -29,9 +29,9 @@ class Cell
 
   end
 
-  def render(*ship)
+  def render(*optional)
 
-    if ship.include?(true)
+    if optional.include?(true) && !empty?
       'S'
     elsif fired_upon? && empty?
       'M'

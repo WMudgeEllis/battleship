@@ -1,5 +1,6 @@
 require './lib/board'
 require './lib/ship'
+require './lib/cell'
 require 'pry'
 
 RSpec.describe Board do
@@ -10,7 +11,7 @@ RSpec.describe Board do
       expect(board).to be_a(Board)
     end
 
-    xit 'creates empty hash cells called cells' do
+    it 'creates empty hash cells called cells' do
       board = Board.new
 
       expect(board.cells).to eq({})
@@ -22,6 +23,7 @@ RSpec.describe Board do
       it 'can generate cells' do
         board = Board.new
 
+        board.cell_generator
         board.cells
 
         #require 'pry'; binding.pry
@@ -30,7 +32,7 @@ RSpec.describe Board do
       it 'can validate basic coordinate' do
         board = Board.new
 
-        board.cells
+        board.cell_generator
 
         expect(board.valid_coordinate?('A1')).to eq(true)
         expect(board.valid_coordinate?('D4')).to eq(true)
@@ -45,7 +47,8 @@ RSpec.describe Board do
           cruiser = Ship.new('Cruiser', 3)
           submarine = Ship.new('Submarine', 2)
 
-          board.cells
+          board.cell_generator
+
           expect(board.valid_placement?(cruiser, ['A1', 'A2'])).to eq(false)
           expect(board.valid_placement?(submarine, ['A2', 'A3', 'A4'])).to eq(false)
           expect(board.valid_placement?(submarine, ["C1", "B1"])).to eq(false)
@@ -67,6 +70,27 @@ RSpec.describe Board do
           expect(board.valid_placement?(cruiser, ['A4', 'B4', 'C4'])).to eq(true)
 
         end
+      context 'placing ships' do
+        it 'can place' do
+          board = Board.new
+          cruiser = Ship.new('Cruiser', 3)
+          board.cell_generator
+
+          board.place(cruiser, ['A1', 'A2', 'A3'])
+
+          cell_1 = board.cells['A1'.to_sym]
+          cell_2 = board.cells['A2'.to_sym]
+          cell_3 = board.cells['A3'.to_sym]
+
+          # binding.pry
+
+          expect(cell_1.ship).to be_a(Ship)
+          expect(cell_2.ship).to be_a(Ship)
+          expect(cell_3.ship).to be_a(Ship)
+          expect(cell_3.ship).to eq(cell_2.ship)
+        end
+      end
+
 
       end
 
