@@ -25,8 +25,8 @@ class Board
 
   def valid_column?(ship, arr)
     board_range = ('A1'..'D4')
-    # require "pry"; binding.pry
-    board_range.each_cons(ship.length).map{|poss_arr|poss_arr}.any?{|poss_arr|poss_arr == arr}
+
+    board_range.each_cons(ship.length).map{|poss_arr|poss_arr}.any?{|poss_arr|poss_arr == arr} #one way to break apart is to make a variable that is just the valid placement then run .equal
   end
 
   def valid_row?(ship, arr)

@@ -29,9 +29,9 @@ class Cell
 
   end
 
-  def render(*ship)
+  def render(*ship) #may want to change name, is confusing as it is not a ship. Maybe
 
-    if ship.include?(true)
+    if ship.include?(true) #as written it looks like it will pop out 'S' whenever true is entered. Add empty? to condition?
       'S'
     elsif fired_upon? && empty?
       'M'
