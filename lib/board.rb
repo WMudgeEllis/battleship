@@ -1,4 +1,4 @@
-
+require 'pry'
 class Board
   attr_reader :rows, :columns, :cells
   def initialize
@@ -24,16 +24,16 @@ class Board
 
 
   def valid_column?(ship, arr)
-
-
     board_range = ('A1'..'D4')
     # require "pry"; binding.pry
     board_range.each_cons(ship.length).map{|poss_arr|poss_arr}.any?{|poss_arr|poss_arr == arr}
-
   end
 
   def valid_row?(ship, arr)
-    row_range = (arr.first.chr)..(arr.last.chr)
+    letter_range = ('A'..'D')
+    split_array = arr.map{|x| x.split("")}
+    letters = split_array.map{|x| x.shift}
+    letter_range.each_cons(ship.length).map{|poss_arr|poss_arr}.any?{|poss_arr|poss_arr == letters}
   end
 
   def valid_length?(ship, arr)
@@ -42,19 +42,19 @@ class Board
 
 
   def valid_placement?(ship, arr)
-
     if !valid_length?(ship, arr)
       return false
-    elsif !valid_column?(ship, arr)
+    elsif !valid_column?(ship, arr) && !valid_row?(ship, arr)
       return false
     elsif valid_column?(ship,arr)
       return true
     elsif !valid_row?(ship, arr)
       return false
     elsif valid_row?(ship, arr)
-
+      return true
+    else
+      nil
     end
-
   end
 
 
