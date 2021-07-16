@@ -89,6 +89,24 @@ RSpec.describe Board do
           expect(cell_3.ship).to be_a(Ship)
           expect(cell_3.ship).to eq(cell_2.ship)
         end
+
+        it 'can exclude ships that are overlapping' do
+          board = Board.new
+          cruiser = Ship.new('Cruiser', 3)
+          submarine = Ship.new('Submarine', 2)
+
+          board.cell_generator
+
+          board.place(cruiser, ['A1', 'A2', 'A3'])
+
+          cell_1 = board.cells['A1'.to_sym]
+          cell_2 = board.cells['A2'.to_sym]
+          cell_3 = board.cells['A3'.to_sym]
+
+          submarine = Ship.new('Submarine', 2)
+
+          expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq(false)
+        end
       end
 
 

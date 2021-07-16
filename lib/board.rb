@@ -58,7 +58,11 @@ class Board
 
 
   def valid_placement?(ship, arr)
+    # valid_length?(ship, arr) && valid_column?(ship, arr) && valid_row?(ship,arr) && !overlapping?(arr)
+
     if !valid_length?(ship, arr)
+      return false
+    elsif overlapping?(arr) == true
       return false
     elsif !valid_column?(ship, arr) && !valid_row?(ship, arr)
       return false
@@ -71,6 +75,31 @@ class Board
     else
       nil
     end
+  end
+
+  def cell_values
+    @cells.values
+  end
+
+  def get_cells_not_empty
+    cell_values.find_all do |cells|
+      if not cells.empty?
+        true
+      else
+        false
+      end
+    end
+  end
+
+  def filled_cell_coords_array
+    get_cells_not_empty.flat_map do |cell|
+      cell.coordinate
+    end
+  end
+
+  def overlapping?(arr)
+    x = filled_cell_coords_array + arr
+    x.length != x.uniq.length
   end
 
   def place(ship, array)
