@@ -29,7 +29,7 @@ RSpec.describe Board do
         #require 'pry'; binding.pry
       end
 
-      it 'can validate basic coordinate' do
+      it 'can validate basic coordinate' do # put in valid ship placement
         board = Board.new
 
         board.cell_generator

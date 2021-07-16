@@ -36,12 +36,17 @@ class Board
     @cells.include?(coordinate.to_sym)
   end
 
+  def valid_column_range(ship)
+    ('A1'..'D4').each_cons(ship.length).map do |poss_arr| # Will always regenrate possible postion array (Memory intensive)
+      poss_arr
+    end
+  end
+
 
   def valid_column?(ship, arr)
-    board_range = ('A1'..'D4')
-    possible_range = board_range.each_cons(ship.length).map{|poss_arr|poss_arr}# make  methods to help readabiltiy
-    possible_range.any?{|poss_arr|poss_arr == arr}# multi line versions of all iterations
-
+    valid_column_range(ship).any? do |poss_arr|
+      poss_arr == arr
+    end
   end
 
   def split_array(arr)
@@ -97,6 +102,10 @@ class Board
     @cells.values
   end
 
+  def cell_keys
+    @cells.keys
+  end
+
   def get_cells_not_empty
     cell_values.find_all do |cells|
       !cells.empty?
@@ -111,12 +120,12 @@ class Board
 
   def overlapping?(arr)
     x = filled_cell_coords_array + arr
-    x.length != x.uniq.length
+    x.length != x.uniq.length # Rename x to total_coords
   end
 
   def place(ship, array)
     if valid_placement?(ship, array)
-      array.each do |x|
+      array.each do |x|#Rename x to coords
         @cells[x.to_sym].place_ship(ship)
       end
     end
@@ -131,12 +140,13 @@ class Board
     cell_rendering
   end
 
+  def row_output
+    
+  end
+
   def render
-    "  \n"
-    "  \n"
-    "  \n"
-    "  \n"
-    "  \n"
+    "  1 2 3 4 #{}"
+
 
   end
 
