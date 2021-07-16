@@ -44,12 +44,28 @@ class Board
 
   end
 
+  def split_array(arr)
+    arr.map do |x|
+      x.split("")
+    end
+  end
+
+  def letter_array(arr)
+    split_array(arr).map do |x|
+      x.shift
+    end
+  end
+
+  def row_possible_range(ship)
+    Rows.each_cons(ship.length).map do |poss_arr|
+      poss_arr
+    end
+  end
+
   def valid_row?(ship, arr)
-    split_array = arr.map{|x| x.split("")}
-    letters = split_array.map{|x| x.shift}
-    possible_range = Rows.each_cons(ship.length).map{|poss_arr|poss_arr}
-    possible_range.any?{|poss_arr|poss_arr == letters}
-    # letter_range.each_cons(ship.length).map{|poss_arr|poss_arr}.any?{|poss_arr|poss_arr == letters}
+    row_possible_range(ship).any? do |poss_arr|
+      poss_arr == letter_array(arr)
+    end
   end
 
   def valid_length?(ship, arr)
@@ -83,11 +99,7 @@ class Board
 
   def get_cells_not_empty
     cell_values.find_all do |cells|
-      if not cells.empty?
-        true
-      else
-        false
-      end
+      !cells.empty?
     end
   end
 
@@ -108,6 +120,23 @@ class Board
         @cells[x.to_sym].place_ship(ship)
       end
     end
+
+  end
+
+  def render_cells
+    cell_rendering = []
+    cell_values.each do |cell|
+      cell_rendering << cell.render
+    end
+    cell_rendering
+  end
+
+  def render
+    "  \n"
+    "  \n"
+    "  \n"
+    "  \n"
+    "  \n"
 
   end
 

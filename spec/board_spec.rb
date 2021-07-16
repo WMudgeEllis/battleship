@@ -90,6 +90,7 @@ RSpec.describe Board do
           expect(cell_3.ship).to eq(cell_2.ship)
         end
 
+
         it 'can exclude ships that are overlapping' do
           board = Board.new
           cruiser = Ship.new('Cruiser', 3)
@@ -108,7 +109,15 @@ RSpec.describe Board do
           expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq(false)
         end
       end
+      context 'render board' do
+        it 'it renders empty' do
+          board = Board.new
 
+          board.cell_generator
+
+          expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
+        end
+      end
 
       end
 
