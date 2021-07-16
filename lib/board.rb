@@ -83,7 +83,7 @@ class Board
 
   def get_cells_not_empty
     cell_values.find_all do |cells|
-      if not cells.empty?
+      if not cells.empty? #shoulda done !cells.empty? lmao
         true
       else
         false
