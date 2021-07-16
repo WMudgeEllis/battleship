@@ -1,3 +1,4 @@
+require 'pry'
 class Cell
   attr_reader :coordinate, :ship, :fired_upon
 
@@ -28,10 +29,10 @@ class Cell
     end
 
   end
-
-  def render(*optional)
-
-    if optional.include?(true) && !empty?
+# && !empty?
+  def render(ship_present=false)
+    # binding.pry
+    if ship_present && !empty? # Dosent pass cell test but passes board test, optional.include? dosent pass cell test but dose pass board
       'S'
     elsif fired_upon? && empty?
       'M'
@@ -43,8 +44,6 @@ class Cell
       end
     else
       '.'
-
-
     end
   end
 

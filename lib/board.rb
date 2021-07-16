@@ -36,20 +36,41 @@ class Board
     @cells.include?(coordinate.to_sym)
   end
 
+  def valid_column_range(ship)
+    ('A1'..'D4').each_cons(ship.length).map do |poss_arr| # Will always regenrate possible postion array (Memory intensive)
+      poss_arr
+    end
+  end
+
 
   def valid_column?(ship, arr)
-    board_range = ('A1'..'D4')
-    possible_range = board_range.each_cons(ship.length).map{|poss_arr|poss_arr}# make  methods to help readabiltiy
-    possible_range.any?{|poss_arr|poss_arr == arr}# multi line versions of all iterations
+    valid_column_range(ship).any? do |poss_arr|
+      poss_arr == arr
+    end
+  end
 
+  def split_array(arr)
+    arr.map do |x|
+      x.split("")
+    end
+  end
+
+  def letter_array(arr)
+    split_array(arr).map do |x|
+      x.shift
+    end
+  end
+
+  def row_possible_range(ship)
+    Rows.each_cons(ship.length).map do |poss_arr|
+      poss_arr
+    end
   end
 
   def valid_row?(ship, arr)
-    split_array = arr.map{|x| x.split("")}
-    letters = split_array.map{|x| x.shift}
-    possible_range = Rows.each_cons(ship.length).map{|poss_arr|poss_arr}
-    possible_range.any?{|poss_arr|poss_arr == letters}
-    # letter_range.each_cons(ship.length).map{|poss_arr|poss_arr}.any?{|poss_arr|poss_arr == letters}
+    row_possible_range(ship).any? do |poss_arr|
+      poss_arr == letter_array(arr)
+    end
   end
 
   def valid_length?(ship, arr)
@@ -81,13 +102,13 @@ class Board
     @cells.values
   end
 
+  def cell_keys
+    @cells.keys
+  end
+
   def get_cells_not_empty
     cell_values.find_all do |cells|
-      if not cells.empty?
-        true
-      else
-        false
-      end
+      !cells.empty?
     end
   end
 
@@ -99,16 +120,28 @@ class Board
 
   def overlapping?(arr)
     x = filled_cell_coords_array + arr
-    x.length != x.uniq.length
+    x.length != x.uniq.length # Rename x to total_coords
   end
 
   def place(ship, array)
     if valid_placement?(ship, array)
-      array.each do |x|
+      array.each do |x|#Rename x to coords
         @cells[x.to_sym].place_ship(ship)
       end
     end
 
+  end
+
+  def row_output(range, show_ship=false)
+    cell_values[range].map do |cell|
+      cell.render(show_ship)
+    end.join(' ')
+
+  end
+
+  def render(show_ship=false)
+    # binding.pry
+    "  1 2 3 4 \nA #{row_output(0..3, show_ship)} \nB #{row_output(4..7, show_ship)} \nC #{row_output(8..11, show_ship)} \nD #{row_output(12..15, show_ship)} \n"
   end
 
 
