@@ -132,22 +132,16 @@ class Board
 
   end
 
-  def render_cells
-    cell_rendering = []
-    cell_values.each do |cell|
-      cell_rendering << cell.render
-    end
-    cell_rendering
+  def row_output(range, show_ship=false)
+    cell_values[range].map do |cell|
+      cell.render(show_ship)
+    end.join(' ')
+
   end
 
-  def row_output
-    
-  end
-
-  def render
-    "  1 2 3 4 #{}"
-
-
+  def render(show_ship=false)
+    # binding.pry
+    "  1 2 3 4 \nA #{row_output(0..3, show_ship)} \nB #{row_output(4..7, show_ship)} \nC #{row_output(8..11, show_ship)} \nD #{row_output(12..15, show_ship)} \n"
   end
 
 

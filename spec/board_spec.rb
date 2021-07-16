@@ -114,9 +114,60 @@ RSpec.describe Board do
           board = Board.new
 
           board.cell_generator
-
           expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
         end
+
+        it 'can reveal a ship' do
+          board = Board.new
+          cruiser = Ship.new('Cruiser', 3)
+          submarine = Ship.new('Submarine', 2)
+
+          board.cell_generator
+          board.place(cruiser, ['A1', 'A2', 'A3'])
+
+          cell_1 = board.cells['A1'.to_sym]
+          cell_2 = board.cells['A2'.to_sym]
+          cell_3 = board.cells['A3'.to_sym]
+
+          # binding.pry
+          expect(board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
+
+        end
+
+        it 'can render all' do
+          board = Board.new
+          cruiser = Ship.new('Cruiser', 3)
+          submarine = Ship.new('Submarine', 2)
+
+          board.cell_generator
+          cell_1 = board.cells['A1'.to_sym]
+
+          board.place(cruiser, ['A1', 'A2', 'A3'])
+          # binding.pry
+          cell_1.fire_upon
+
+          expect(board.render).to eq("  1 2 3 4 \nA H . . . \nB . . . . \nC . . . . \nD . . . . \n")
+
+          cell_2 = board.cells['B1'.to_sym]
+          cell_2.fire_upon
+
+          expect(board.render).to eq("  1 2 3 4 \nA H . . . \nB M . . . \nC . . . . \nD . . . . \n")
+
+          cell_3 = board.cells[:A2]
+          cell_4 = board.cells[:A3]
+
+          cell_3.fire_upon
+          cell_4.fire_upon
+
+          expect(board.render).to eq("  1 2 3 4 \nA X X X . \nB M . . . \nC . . . . \nD . . . . \n")
+
+          
+
+
+
+        end
+
+
       end
 
       end
