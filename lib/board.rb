@@ -9,18 +9,6 @@ class Board
     @cells = {}
   end
 
-
-  #board.cells[this needs to be a symbol] this is potential solution below
-
-  # def cells(*cell_tags)
-  #   if cell_tags.class == String
-  #     @cells[cell_tags.to_sym]
-  #   else
-  #     @cells
-  #   end
-  # end
-
-
   def cell_generator
     cell_count = 0
     while cell_count != Rows.length
@@ -128,6 +116,8 @@ class Board
       array.each do |x|#Rename x to coords
         @cells[x.to_sym].place_ship(ship)
       end
+    elsif !valid_placement?(ship, array)
+      return false
     end
 
   end
@@ -142,6 +132,52 @@ class Board
   def render(show_ship=false)
     # binding.pry
     "  1 2 3 4 \nA #{row_output(0..3, show_ship)} \nB #{row_output(4..7, show_ship)} \nC #{row_output(8..11, show_ship)} \nD #{row_output(12..15, show_ship)} \n"
+  end
+
+  # def all_valid_column(ship)
+  #   all_valid_column = []
+  #
+  #   if ship.length == 3
+  #     x = 0
+  #     y = 1
+  #     while x != 40
+  #       all_valid_placement << valid_column_range(ship)[x..y]
+  #       x += 10
+  #       y += 10
+  #     end
+  #   elsif ship.length == 2
+  #     x = 0
+  #     y = 2
+  #     while x != 40
+  #       all_valid_placement << valid_column_range(ship)[x..y]
+  #       x += 10
+  #       y += 10
+  #     end
+  #  end
+  #  all_valid_placement
+  # end
+
+  def all_possible_valid_placements(ship)
+    all_valid_placement = []
+    # require "pry"; binding.pry
+    if ship.length == 3
+      x = 0
+      y = 1
+      while x != 40
+        all_valid_placement << valid_column_range(ship)[x..y]
+        x += 10
+        y += 10
+      end
+    elsif ship.length == 2
+      x = 0
+      y = 2
+      while x != 40
+        all_valid_placement << valid_column_range(ship)[x..y]
+        x += 10
+        y += 10
+      end
+   end
+   all_valid_placement
   end
 
 
