@@ -15,11 +15,11 @@ run a method that places computer ships [NOT WRITTEN] [TURN]
   -possible column method and valid placement? to get the extras out
   -then [hardcode?] add in the missing possibilites (rows)
 
-display user board [WRITTEN]  [GAMEFILE BRAIN]
+~~display user board [WRITTEN]  [GAMEFILE BRAIN]
 ask user to place ship [WRITTEN-ish] [GAMEFILE BRAIN]
 take user input and run method to place ship(s) [WRITTEN-ish] [GAMEFILE BRAIN]
 Need to not allow invalid placement and give feedback [NOTWRITTEN-ish] [GAMEFILE BRAIN]
-update user's board with ships[WRITTEN]
+update user's board with ships[WRITTEN]~~
 
 
 MIDDLE LOOP
