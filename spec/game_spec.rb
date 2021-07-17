@@ -21,10 +21,11 @@ RSpec.describe Game do
 
   context 'methods' do
 
-    xit 'has game start sequence' do
+    it 'can generate all possible valid arrays' do
       game = Game.new
 
-      expect(game.start).to eq("Welcome to BATTLESHIP \n would you like to play a game? \n y/n?")
+
+      expect(game.all_valid_placements(game.computer_ships[1])).to eq(false)
     end
 
   end

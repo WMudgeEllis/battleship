@@ -13,9 +13,9 @@ class Game
     puts "Welcome to BATTLESHIP \n would you like to play a game? \n y/n?"
     print '>'
     input = gets.chomp
-    if input = 'y'
+    if input == 'y'
       setup
-    elsif input = 'n'
+    elsif input == 'n'
       puts "See you next time!"
     else
       'INVALID INPUT, PLEASE RERUN PROGRAM'
@@ -30,27 +30,33 @@ class Game
     puts "The Cruiser is three units long and the Submarine is two units long."
     puts @user_board.render
 
-  # player_place_count = 0
-      # while x < 2
-      #   @player_ships.each do |ship|
-      #     place_ship(ship)
-      #   end
-      # end
-
     place_ships(@user_ships[0])
     place_ships(@user_ships[1])
 
     #run the next method (while loop)
   end
 
+  def user_input
+    gets.chomp
+  end
 
   def place_ships(ship)
-    puts "Enter the squares for the #{ship} (#{ship.length}):" #need to figure out a retry
+    puts "Enter the squares for the #{ship.name} it is (#{ship.length}) long:" #need to figure out a retry
     print '>'
-    user_input = gets.chomp
-    user_input = user_input.split(', ')
+    user_arr = user_input.split(', ')
 
-    place_user_ships(ship, user_input)
+    if @user_board.valid_placement?(ship, user_arr)
+      place_user_ships(ship, user_arr)
+    else
+      while place_user_ships(ship, user_arr) == false
+        puts "Try again, incorrect or invalid coordinates."
+        print '>'
+        user_arr = user_input.split(', ')
+        place_user_ships(ship, user_arr)
+        break if !place_user_ships(ship, user_arr)
+          place_user_ships(ship, user_arr)
+      end
+    end
     puts @user_board.render(true)
   end
 
@@ -60,10 +66,22 @@ class Game
   end
 
 
+  def place_comp_ship
+    @computerships.each do |ship|
+      @computer_board.place(ship, random_valid_array)
+    end
+  end
 
 
+  def random_valid_arra(ship)
+    all_valid_placements(ship).shuffle.first
+  end
 
+  def all_valid_placements(ship)
+      # require "pry"; binding.pry
+    @computer_board.all_possible_valid_placements(ship)
 
+  end
 
 
 
