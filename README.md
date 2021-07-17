@@ -7,16 +7,6 @@ puts greeting [NOT WRITTEN]
 
 
 
-display both boards [WRITTEN]-while loop that runs while neither set of ships are completely sunk
-display user board [WRITTEN]
-ask user to place ship [WRITTEN-ish]
-take user input and run method to place ship(s) [WRITTEN-ish]
-Need to not allow invalid placement and give feedback [NOTWRITTEN-ish]
-update user's board with ships[WRITTEN]
-method: gamelost?[INTURN]
-
-
-
 SETUP
 run method that generates both boards [WRITTEN]
 create both set of ship objects (the computer and the player's)
@@ -43,7 +33,7 @@ recieve user input [FIRE UPON DEF]
 tell user feedback [FEEDBACK METHOD]
 fire computer's shot [FIRE UPON DEF] [RANDOM SHOT?]
   -getcellsnotempty array then a.shuffle.first
-  -
+  -in turn, build off of shot
 
 
 
@@ -61,6 +51,8 @@ return feedback [NOTWRITTEN] [IN TURN]
       -SUNK
 
 fire computer shot [NOT WRITTEN]
+  -getcellsnotempty array then a.shuffle.first
+  -in turn, build off of shot
 
 
 return computer feedback
@@ -75,8 +67,12 @@ BOARD HIT METHOD(board, coordstr)
   -HIT A CELL [WRRITTEN]
   -return HIT, MISS, or SUNK
 
+fire computer shot [NOT WRITTEN]
+  -getcellsnotempty array then a.shuffle.first
+  -in turn, build off of shot
 
-return feedback [NOTWRITTEN] [IN TURN](board, coord)
+
+return feedback [NOTWRITTEN] [IN TURN] (board, coord)
       -HIT
       -MISS
       -SUNK
