@@ -1,15 +1,15 @@
 class Game
 
-puts greeting [NOT WRITTEN]
+~~puts greeting [NOT WRITTEN]
   DO YOU WANT TO PLAY A GAME?
   y->play
-  n->getlost
+  n->getlost~~
 
 
 
 SETUP
-run method that generates both boards [WRITTEN]
-create both set of ship objects (the computer and the player's)
+~~run method that generates both boards [WRITTEN]~~
+~~create both set of ship objects (the computer and the player's)~~
 run a method that places computer ships [NOT WRITTEN] [TURN]
   -we need an array of all possible positions for the ship then shuffle the first
   -possible column method and valid placement? to get the extras out

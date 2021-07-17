@@ -12,11 +12,11 @@ RSpec.describe Turn do
       expect(turn).to be_a(Turn)
     end
 
-    it 'can take board as parameter' do
+    xit 'can take board as parameter' do
       board = Board.new
       turn = Turn.new(board)
 
-
+      expect(turn.board)
     end
 
 

@@ -128,6 +128,8 @@ class Board
       array.each do |x|#Rename x to coords
         @cells[x.to_sym].place_ship(ship)
       end
+    elsif !valid_placement?(ship, array)
+      return false
     end
 
   end
