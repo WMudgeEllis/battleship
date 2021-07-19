@@ -49,16 +49,28 @@ class Board
     end
   end
 
+  def reversed_and_sorted_coords
+    reversed = []
+
+    ('A1'..'D4').each do |x|
+      reversed << x.reverse!
+    end
+    reversed.sort
+  end
+
   def row_possible_range(ship)
-    Rows.each_cons(ship.length).map do |poss_arr|
+    sorted = []
+    reversed_and_sorted_coords.each do |x|
+      sorted << x.reverse
+    end
+    x = sorted.each_cons(ship.length).map do |poss_arr|
       poss_arr
     end
+    # binding.pry
   end
 
   def valid_row?(ship, arr)
-    row_possible_range(ship).any? do |poss_arr|
-      poss_arr == letter_array(arr)
-    end
+    all_possible_valid_rows(ship).include?(arr)
   end
 
   def valid_length?(ship, arr)
@@ -75,12 +87,12 @@ class Board
       return false
     elsif !valid_column?(ship, arr) && !valid_row?(ship, arr)
       return false
-    elsif valid_column?(ship,arr)
+    elsif valid_column?(ship,arr) || valid_row?(ship, arr)
       return true
-    elsif !valid_row?(ship, arr)
-      return false
-    elsif valid_row?(ship, arr)
-      return true
+    # elsif !valid_row?(ship, arr)
+      # return false
+    # elsif valid_row?(ship, arr)
+      # return true
     else
       nil
     end
@@ -134,37 +146,14 @@ class Board
     "  1 2 3 4 \nA #{row_output(0..3, show_ship)} \nB #{row_output(4..7, show_ship)} \nC #{row_output(8..11, show_ship)} \nD #{row_output(12..15, show_ship)} \n"
   end
 
-  # def all_valid_column(ship)
-  #   all_valid_column = []
-  #
-  #   if ship.length == 3
-  #     x = 0
-  #     y = 1
-  #     while x != 40
-  #       all_valid_placement << valid_column_range(ship)[x..y]
-  #       x += 10
-  #       y += 10
-  #     end
-  #   elsif ship.length == 2
-  #     x = 0
-  #     y = 2
-  #     while x != 40
-  #       all_valid_placement << valid_column_range(ship)[x..y]
-  #       x += 10
-  #       y += 10
-  #     end
-  #  end
-  #  all_valid_placement
-  # end
-
-  def all_possible_valid_placements(ship)
-    all_valid_placement = []
+  def all_possible_valid_columns(ship)
+    all_valid_columns = []
     # require "pry"; binding.pry
     if ship.length == 3
       x = 0
       y = 1
       while x != 40
-        all_valid_placement << valid_column_range(ship)[x..y]
+        all_valid_columns << valid_column_range(ship)[x..y]
         x += 10
         y += 10
       end
@@ -172,13 +161,38 @@ class Board
       x = 0
       y = 2
       while x != 40
-        all_valid_placement << valid_column_range(ship)[x..y]
+        all_valid_columns << valid_column_range(ship)[x..y]
         x += 10
         y += 10
       end
-   end
-   all_valid_placement
+    end
+    all_valid_columns.flatten(1)
   end
+
+  def all_possible_valid_rows(ship)
+    all_valid_columns = []
+    if ship.length == 2
+      all_valid_columns << row_possible_range(ship)[3..5]
+      all_valid_columns << row_possible_range(ship)[7..9]
+      all_valid_columns << row_possible_range(ship)[11..13]
+      all_valid_columns << row_possible_range(ship)[15..17]
+    elsif ship.length == 3
+       all_valid_columns << row_possible_range(ship)[3..4]
+       all_valid_columns << row_possible_range(ship)[7..8]
+       all_valid_columns << row_possible_range(ship)[11..12]
+       all_valid_columns << row_possible_range(ship)[15..16]
+    end
+    all_valid_columns.flatten(1)
+
+  end
+
+  def all_valid_placements(ship)
+      # require "pry"; binding.pry
+    all_possible_valid_columns(ship) + all_possible_valid_rows(ship)
+
+  end
+
+
 
 
 

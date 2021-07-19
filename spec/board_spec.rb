@@ -62,6 +62,8 @@ RSpec.describe Board do
           cruiser = Ship.new('Cruiser', 3)
           submarine = Ship.new('Submarine', 2)
 
+          expect(board.valid_placement?(submarine, ['A1', 'B2'])).to eq(false)
+          expect(board.valid_placement?(submarine, ['C2', 'B3'])).to eq(false)
           expect(board.valid_placement?(submarine, ["D1", "C1"])).to eq(false)
           expect(board.valid_placement?(submarine, ["C2", "B2"])).to eq(false)
           expect(board.valid_placement?(cruiser, ['C1', 'B1', 'A1'])).to eq(false)
@@ -161,7 +163,7 @@ RSpec.describe Board do
 
           expect(board.render).to eq("  1 2 3 4 \nA X X X . \nB M . . . \nC . . . . \nD . . . . \n")
 
-          
+
 
 
 

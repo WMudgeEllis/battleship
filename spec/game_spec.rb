@@ -2,6 +2,7 @@ require "./lib/board"
 require "./lib/turn"
 require "./lib/ship"
 require "./lib/game"
+require 'pry'
 
 RSpec.describe Game do
 
@@ -21,11 +22,15 @@ RSpec.describe Game do
 
   context 'methods' do
 
-    it 'can generate all possible valid arrays' do
+    it 'can place random computer ships' do
       game = Game.new
+      cruiser = Ship.new('Cruiser', 3)
+      submarine = Ship.new('Submarine', 2)
+
+      expect(game.place_comp_ships).to eq(false)
+      # binding.pry
 
 
-      expect(game.all_valid_placements(game.computer_ships[1])).to eq(false)
     end
 
   end
