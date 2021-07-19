@@ -10,10 +10,10 @@ class Game
 SETUP
 ~~run method that generates both boards [WRITTEN]~~
 ~~create both set of ship objects (the computer and the player's)~~
-run a method that places computer ships [NOT WRITTEN] [TURN]
+~~run a method that places computer ships [NOT WRITTEN] [TURN]
   -we need an array of all possible positions for the ship then shuffle the first
   -possible column method and valid placement? to get the extras out
-  -then [hardcode?] add in the missing possibilites (rows)
+  -then [hardcode?] add in the missing possibilites (rows)~~
 
 ~~display user board [WRITTEN]  [GAMEFILE BRAIN]
 ask user to place ship [WRITTEN-ish] [GAMEFILE BRAIN]

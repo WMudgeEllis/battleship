@@ -24,7 +24,7 @@ class Game
 
   def setup
     #method to place computer ships
-
+    @computer_board.place_comp_ships
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
     puts "The Cruiser is three units long and the Submarine is two units long."
@@ -33,7 +33,13 @@ class Game
     place_ships(@user_ships[0])
     place_ships(@user_ships[1])
 
+
     #run the next method (while loop)
+  end
+
+  def gameplay
+    
+
   end
 
   def user_input
@@ -66,22 +72,18 @@ class Game
   end
 
 
-  def place_comp_ship
-    @computerships.each do |ship|
-      @computer_board.place(ship, random_valid_array)
+  def place_comp_ships
+    @computer_ships.each do |ship|
+      @computer_board.place(ship, random_valid_array(ship))
     end
   end
 
 
-  def random_valid_arra(ship)
-    all_valid_placements(ship).shuffle.first
+  def random_valid_array(ship)
+    @computer_board.all_valid_placements(ship).shuffle.first
   end
 
-  def all_valid_placements(ship)
-      # require "pry"; binding.pry
-    @computer_board.all_possible_valid_placements(ship)
 
-  end
 
 
 
