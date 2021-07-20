@@ -75,8 +75,42 @@ RSpec.describe Game do
 
       game.computer_fire
       game.computer_fire
-      require "pry"; binding.pry
+      # require "pry"; binding.pry
       game.shots_feedback
+    end
+
+    it 'can test sunken ships'do
+      game = Game.new
+
+      expect(game.all_user_sunk?).to eq(false)
+
+      game.user_ships[0].hit
+      game.user_ships[0].hit
+      game.user_ships[0].hit
+
+      game.user_ships[1].hit
+      game.user_ships[1].hit
+
+
+      expect(game.all_user_sunk?).to eq(true)
+    end
+
+    it 'can test computer sunken ships' do
+
+      game = Game.new
+
+      expect(game.all_comp_sunk?).to eq(false)
+
+      game.computer_ships[0].hit
+      game.computer_ships[0].hit
+      game.computer_ships[0].hit
+
+      game.computer_ships[1].hit
+      game.computer_ships[1].hit
+
+
+      expect(game.all_comp_sunk?).to eq(true)
+
     end
   end
 

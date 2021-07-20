@@ -11,6 +11,18 @@ class Game
     @cells_shot = []
   end
 
+  def all_user_sunk?
+    @user_ships.all? do |ship|
+      ship.sunk? == true
+    end
+  end
+
+  def all_comp_sunk?
+    @computer_ships.all? do |ship|
+      ship.sunk? == true
+    end
+  end
+
   def start
     puts "Welcome to BATTLESHIP \n would you like to play a game? \n y/n?"
     print '>'
@@ -25,7 +37,7 @@ class Game
   end
 
   def setup
-    #method to place computer ships
+
     place_comp_ships
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
@@ -39,18 +51,18 @@ class Game
   end
 
   def gameplay
-    puts "========== COMPUTER BOARD =========="
-    puts @computer_board.render
-    puts "========== COMPUTER BOARD =========="
-    puts @user_board.render(true)
-    puts "Please select a cell to fire upon"
-    print '>'
-    input = gets.chomp
-    user_fire(input)
-    computer_fire
-    shots_feedback
-    #check if all of one players ships are sunk
-    #loop if above false
+    while !all_user_sunk? && !all_comp_sunk?
+      puts "========== COMPUTER BOARD =========="
+      puts @computer_board.render
+      puts "========== USER BOARD =========="
+      puts @user_board.render(true)
+      puts "Please select a cell to fire upon"
+      print '>'
+      input = gets.chomp
+      user_fire(input)
+      computer_fire
+      shots_feedback
+    end
 
   end
 
@@ -71,7 +83,7 @@ class Game
         print '>'
         user_arr = user_input.split(', ')
         place_user_ships(ship, user_arr)
-        break if !place_user_ships(ship, user_arr)
+        next if !place_user_ships(ship, user_arr)
           place_user_ships(ship, user_arr)
       end
     end
@@ -114,11 +126,12 @@ class Game
     user_shot = @cells_shot.shift
     comp_shot = @cells_shot.shift
     puts "Your #{feedback_tree(user_shot)}"
-    puts  "My #{feedback_tree(comp_shot)}"
+    puts  "The computer's #{feedback_tree(comp_shot)}"
   end
 
   def fire(board, coordinate)
     if board.valid_coordinate?(coordinate)
+      # require "pry"; binding.pry
       record_shot(board, coordinate)
     end
     board.cells[coordinate.to_sym].fire_upon
@@ -133,9 +146,11 @@ class Game
         puts "Try agian"
         print ">"
         coordinate = user_input
-        fire(@computer_board, coordinate)
-        break if @computer_board.valid_coordinate?(coordinate)
+        # fire(@computer_board, coordinate)
+        if @computer_board.valid_coordinate?(coordinate) == true
           fire(@computer_board, coordinate)
+          break
+        end
       end
     end
   end
