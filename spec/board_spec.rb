@@ -40,6 +40,14 @@ RSpec.describe Board do
         expect(board.valid_coordinate?('E1')).to eq(false)
         expect(board.valid_coordinate?('A22')).to eq(false)
       end
+      
+      it "can fetch all cels not fired upon" do
+        board = Board.new
+
+        board.cell_generator
+        expect(board.get_cells_not_fired_upon).to eq(['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4'])
+
+      end
 
       context 'can validate ship placement' do
         it "can validate a row placement" do

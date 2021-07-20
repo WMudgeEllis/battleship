@@ -21,7 +21,7 @@ class Board
   end
 
   def valid_coordinate?(coordinate)
-    @cells.include?(coordinate.to_sym)
+    @cells.include?(coordinate.to_sym) && get_cells_not_fired_upon.include?(coordinate)
   end
 
   def valid_column_range(ship)
@@ -112,6 +112,15 @@ class Board
     end
   end
 
+  def get_cells_not_fired_upon
+    x = cell_values.find_all do |cells|
+      !cells.fired_upon?
+    end
+    x.map do |x|
+      x.coordinate
+    end
+  end
+
   def filled_cell_coords_array
     get_cells_not_empty.flat_map do |cell|
       cell.coordinate
@@ -191,6 +200,8 @@ class Board
     all_possible_valid_columns(ship) + all_possible_valid_rows(ship)
 
   end
+
+
 
 
 

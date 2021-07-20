@@ -22,7 +22,7 @@ RSpec.describe Game do
 
   context 'methods' do
 
-    it 'can place random computer ships' do
+    xit 'can place random computer ships' do
       game = Game.new
       cruiser = Ship.new('Cruiser', 3)
       submarine = Ship.new('Submarine', 2)
@@ -31,6 +31,34 @@ RSpec.describe Game do
       # binding.pry
 
 
+    end
+
+    it 'can fire' do
+      game = Game.new
+      cruiser = Ship.new('Cruiser', 3)
+      submarine = Ship.new('Submarine', 2)
+
+      game.fire(game.computer_board, 'A1')
+
+      expect(game.computer_board.cells[:A1].fired_upon?).to eq(true)
+
+    end
+
+    xit 'user can fire' do
+      game = Game.new
+
+      game.user_fire('A1')
+      # binding.pry
+      expect(game.computer_board.cells[:A1].fired_upon?).to eq(true)
+      game.user_fire('D6')
+    end
+
+    it 'computer can fire' do
+      game = Game.new
+
+      game.computer_fire
+      
+      expect(game.user_board.get_cells_not_fired_upon.length).to eq(15)
     end
 
   end
