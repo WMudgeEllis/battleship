@@ -11,7 +11,7 @@ class Turn
   def record_shot(board, coordinate)
     @cells_shot << game.board.cells[coordinate.to_sym]
   end
-
+  
   def feedback
     x = @cells_shot[-2..-1]
     puts_feedback(x)

@@ -33,7 +33,7 @@ RSpec.describe Game do
 
     end
 
-    it 'can fire' do
+    xit 'can fire' do
       game = Game.new
       cruiser = Ship.new('Cruiser', 3)
       submarine = Ship.new('Submarine', 2)
@@ -53,15 +53,33 @@ RSpec.describe Game do
       game.user_fire('D6')
     end
 
-    it 'computer can fire' do
+    xit 'computer can fire' do
       game = Game.new
 
       game.computer_fire
-      
+
       expect(game.user_board.get_cells_not_fired_upon.length).to eq(15)
     end
 
+    it 'can record shots' do
+      game = Game.new
+
+      game.computer_fire
+
+      expect(game.cells_shot.length).to eq(1)
+
+    end
+
+    it 'can give feedback for shots'do
+      game = Game.new
+
+      game.computer_fire
+      game.computer_fire
+      require "pry"; binding.pry
+      game.shots_feedback
+    end
   end
+
 
 
 end
