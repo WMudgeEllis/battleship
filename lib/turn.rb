@@ -1,13 +1,15 @@
+
+
 class Turn
-  attr_reader :shots
+  attr_reader :cells_shot
   attr_accessor :game
   def initialize(game)
     @game = game
     @cells_shot = []
   end
 
-  def record_shot(cell_object)
-    @cells_shot << cell_object
+  def record_shot(board, coordinate)
+    @cells_shot << game.board.cells[coordinate.to_sym]
   end
 
   def feedback

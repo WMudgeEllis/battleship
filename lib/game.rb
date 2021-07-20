@@ -1,5 +1,5 @@
 
-class Game < Turn
+class Game 
   attr_reader :computer_board, :user_board, :user_ships, :computer_ships
   def initialize
     @computer_board = Board.new
