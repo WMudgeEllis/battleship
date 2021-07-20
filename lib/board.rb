@@ -21,7 +21,7 @@ class Board
   end
 
   def valid_coordinate?(coordinate)
-    @cells.include?(coordinate.to_sym)
+    @cells.include?(coordinate.to_sym) && get_cells_not_fired_upon.include?(coordinate)
   end
 
   def valid_column_range(ship)

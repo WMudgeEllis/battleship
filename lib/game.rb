@@ -1,4 +1,5 @@
-class Game
+
+class Game < Turn
   attr_reader :computer_board, :user_board, :user_ships, :computer_ships
   def initialize
     @computer_board = Board.new
@@ -38,7 +39,15 @@ class Game
   end
 
   def gameplay
-
+    @computer_board.render
+    @user_board.render(true)
+    input = gets.chomp
+    user_fire(input)
+    #feedback
+    computer_fire
+    #feedback
+    #check if all of one players ships are sunk
+    #loop if above false
 
   end
 
@@ -85,6 +94,9 @@ class Game
 
   def fire(board, coordinate)
     board.cells[coordinate.to_sym].fire_upon
+    if board.valid_coordinate?(coordinate)
+      record_shot(board.cells[coordinate])
+    end
   end
 
   def user_fire(coordinate)
@@ -107,5 +119,7 @@ class Game
     array = @user_board.get_cells_not_fired_upon
     fire(@user_board, array.shuffle.first)
   end
+
+
 
 end
