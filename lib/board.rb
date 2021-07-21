@@ -12,8 +12,8 @@ class Board
   def cell_generator
     cell_count = 0
     while cell_count != Rows.length
-      Columns.each do |num| #needs columns to be int
-        coordinate = Rows[cell_count] + num.to_s #produces string that eq (rownum)
+      Columns.each do |num|
+        coordinate = Rows[cell_count] + num.to_s
         @cells[coordinate.to_sym] = Cell.new(coordinate)
       end
       cell_count += 1
@@ -25,11 +25,10 @@ class Board
   end
 
   def valid_column_range(ship)
-    ('A1'..'D4').each_cons(ship.length).map do |poss_arr| # Will always regenrate possible postion array (Memory intensive)
+    ('A1'..'D4').each_cons(ship.length).map do |poss_arr|
       poss_arr
     end
   end
-
 
   def valid_column?(ship, arr)
     valid_column_range(ship).any? do |poss_arr|
@@ -66,7 +65,6 @@ class Board
     x = sorted.each_cons(ship.length).map do |poss_arr|
       poss_arr
     end
-    # binding.pry
   end
 
   def valid_row?(ship, arr)
@@ -79,8 +77,6 @@ class Board
 
 
   def valid_placement?(ship, arr)
-    # valid_length?(ship, arr) && valid_column?(ship, arr) && valid_row?(ship,arr) && !overlapping?(arr)
-
     if !valid_length?(ship, arr)
       return false
     elsif overlapping?(arr) == true
@@ -89,12 +85,6 @@ class Board
       return false
     elsif valid_column?(ship,arr) || valid_row?(ship, arr)
       return true
-    # elsif !valid_row?(ship, arr)
-      # return false
-    # elsif valid_row?(ship, arr)
-      # return true
-    else
-      nil
     end
   end
 
@@ -128,36 +118,32 @@ class Board
   end
 
   def overlapping?(arr)
-    x = filled_cell_coords_array + arr
-    x.length != x.uniq.length # Rename x to total_coords
+    total_coords = filled_cell_coords_array + arr
+    total_coords.length != total_coords.uniq.length
   end
 
   def place(ship, array)
     if valid_placement?(ship, array)
-      array.each do |x|#Rename x to coords
-        @cells[x.to_sym].place_ship(ship)
+      array.each do |coords|
+        @cells[coords.to_sym].place_ship(ship)
       end
     elsif !valid_placement?(ship, array)
       return false
     end
-
   end
 
   def row_output(range, show_ship=false)
     cell_values[range].map do |cell|
       cell.render(show_ship)
     end.join(' ')
-
   end
 
   def render(show_ship=false)
-    # binding.pry
     "  1 2 3 4 \nA #{row_output(0..3, show_ship)} \nB #{row_output(4..7, show_ship)} \nC #{row_output(8..11, show_ship)} \nD #{row_output(12..15, show_ship)} \n"
   end
 
   def all_possible_valid_columns(ship)
     all_valid_columns = []
-    # require "pry"; binding.pry
     if ship.length == 3
       x = 0
       y = 1
@@ -179,26 +165,23 @@ class Board
   end
 
   def all_possible_valid_rows(ship)
-    all_valid_columns = []
+    all_valid_rows = []
     if ship.length == 2
-      all_valid_columns << row_possible_range(ship)[3..5]
-      all_valid_columns << row_possible_range(ship)[7..9]
-      all_valid_columns << row_possible_range(ship)[11..13]
-      all_valid_columns << row_possible_range(ship)[15..17]
+      all_valid_rows << row_possible_range(ship)[3..5]
+      all_valid_rows << row_possible_range(ship)[7..9]
+      all_valid_rows << row_possible_range(ship)[11..13]
+      all_valid_rows << row_possible_range(ship)[15..17]
     elsif ship.length == 3
-       all_valid_columns << row_possible_range(ship)[3..4]
-       all_valid_columns << row_possible_range(ship)[7..8]
-       all_valid_columns << row_possible_range(ship)[11..12]
-       all_valid_columns << row_possible_range(ship)[15..16]
+       all_valid_rows << row_possible_range(ship)[3..4]
+       all_valid_rows << row_possible_range(ship)[7..8]
+       all_valid_rows << row_possible_range(ship)[11..12]
+       all_valid_rows << row_possible_range(ship)[15..16]
     end
-    all_valid_columns.flatten(1)
-
+    all_valid_rows.flatten(1)
   end
 
   def all_valid_placements(ship)
-      # require "pry"; binding.pry
     all_possible_valid_columns(ship) + all_possible_valid_rows(ship)
-
   end
 
 

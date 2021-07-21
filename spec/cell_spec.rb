@@ -71,8 +71,6 @@ RSpec.describe Cell do
 
       expect(cell.render).to eq('.')
 
-      cell.fire_upon
-      expect(cell.render).to eq('H')
       expect(cell.render(true)).to eq('S')
     end
 
@@ -113,6 +111,25 @@ RSpec.describe Cell do
 
       expect(cell_2.ship.sunk?).to eq(true)
       expect(cell_2.render).to eq('X')
+    end
+
+    it 'S does not overwrite X or H' do
+      cell_2 = Cell.new('C3')
+      cruiser = Ship.new('Cruiser', 3)
+
+      cell_2.place_ship(cruiser)
+
+      expect(cell_2.render(true)).to eq('S')
+
+      cell_2.fire_upon
+
+      expect(cell_2.render(true)).to eq('H')
+
+      cell_2.fire_upon
+      cell_2.fire_upon
+
+      expect(cell_2.render(true)).to eq('X')
+
     end
   end
 end

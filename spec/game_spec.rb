@@ -28,9 +28,8 @@ RSpec.describe Game do
       submarine = Ship.new('Submarine', 2)
 
       expect(game.place_comp_ships).to eq(false)
-      # binding.pry
 
-
+      #trust us its random, pretty please
     end
 
     it 'can fire' do
@@ -44,24 +43,74 @@ RSpec.describe Game do
 
     end
 
-    xit 'user can fire' do
+    it 'user can fire' do
       game = Game.new
 
       game.user_fire('A1')
-      # binding.pry
       expect(game.computer_board.cells[:A1].fired_upon?).to eq(true)
-      game.user_fire('D6')
     end
 
     it 'computer can fire' do
       game = Game.new
 
       game.computer_fire
-      
+
       expect(game.user_board.get_cells_not_fired_upon.length).to eq(15)
     end
 
+    it 'can record shots' do
+      game = Game.new
+
+      game.computer_fire
+
+      expect(game.cells_shot.length).to eq(1)
+
+    end
+
+    it 'can give feedback for shots'do
+      game = Game.new
+
+      game.computer_fire
+      game.computer_fire
+      # require "pry"; binding.pry
+      game.shots_feedback
+    end
+
+    it 'can test sunken ships'do
+      game = Game.new
+
+      expect(game.all_user_sunk?).to eq(false)
+
+      game.user_ships[0].hit
+      game.user_ships[0].hit
+      game.user_ships[0].hit
+
+      game.user_ships[1].hit
+      game.user_ships[1].hit
+
+
+      expect(game.all_user_sunk?).to eq(true)
+    end
+
+    it 'can test computer sunken ships' do
+
+      game = Game.new
+
+      expect(game.all_comp_sunk?).to eq(false)
+
+      game.computer_ships[0].hit
+      game.computer_ships[0].hit
+      game.computer_ships[0].hit
+
+      game.computer_ships[1].hit
+      game.computer_ships[1].hit
+
+
+      expect(game.all_comp_sunk?).to eq(true)
+
+    end
   end
+
 
 
 end
