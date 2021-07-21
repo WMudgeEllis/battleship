@@ -37,14 +37,17 @@ class Game
   end
 
   def setup
-
+    100.times {puts "\n"}
     place_comp_ships
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
     puts "The Cruiser is three units long and the Submarine is two units long."
+    puts "========== USER BOARD =========="
     puts @user_board.render
-
     place_ships(@user_ships[0])
+    100.times {puts "\n"}
+    puts "========== USER BOARD =========="
+    puts @user_board.render(true)
     place_ships(@user_ships[1])
 
     gameplay
@@ -61,6 +64,7 @@ class Game
       input = gets.chomp
       user_fire(input)
       computer_fire
+      100.times {puts "\n"}
       shots_feedback
     end
 
@@ -89,7 +93,6 @@ class Game
     Game.new.start
   end
 
-
   def user_input
     gets.chomp
   end
@@ -115,32 +118,25 @@ class Game
     puts @user_board.render(true)
   end
 
-
   def place_user_ships(ship, array)
     @user_board.place(ship, array)
   end
 
-
   def place_comp_ships
-    # require "pry"; binding.pry
     @computer_ships.each do |ship|
-      # require "pry"; binding.pry
       @computer_board.place(ship, random_valid_array(ship))
     end
   end
-
 
   def random_valid_array(ship)
     no_overlap = @computer_board.all_valid_placements(ship).find_all do |placement|
       @computer_board.valid_placement?(ship, placement)
     end
     no_overlap.shuffle.first
-    # @computer_board.all_valid_placements(ship).shuffle.first
   end
 
   def record_shot(board, coordinate)
     @cells_shot << board.cells[coordinate.to_sym]
-
   end
 
   def feedback_tree(cell)
@@ -162,7 +158,6 @@ class Game
 
   def fire(board, coordinate)
     if board.valid_coordinate?(coordinate)
-      # require "pry"; binding.pry
       record_shot(board, coordinate)
     end
     board.cells[coordinate.to_sym].fire_upon
@@ -177,7 +172,6 @@ class Game
         puts "Try agian"
         print ">"
         coordinate = user_input
-        # fire(@computer_board, coordinate)
         if @computer_board.valid_coordinate?(coordinate) == true
           fire(@computer_board, coordinate)
           break
@@ -190,7 +184,5 @@ class Game
     array = @user_board.get_cells_not_fired_upon
     fire(@user_board, array.shuffle.first)
   end
-
-
 
 end
