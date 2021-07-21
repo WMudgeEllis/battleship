@@ -5,5 +5,4 @@ require "./lib/game"
 require "./lib/cell"
 
 
-game = Game.new
-game.start
+Game.new.start
