@@ -49,6 +49,7 @@ class Game
     puts "========== USER BOARD =========="
     puts @user_board.render(true)
     place_ships(@user_ships[1])
+    100.times {puts "\n"}
 
     gameplay
   end
@@ -167,12 +168,22 @@ class Game
     if @computer_board.valid_coordinate?(coordinate)
       fire(@computer_board, coordinate)
     else
-      while @computer_board.valid_coordinate?(coordinate) != true
-        puts "INVALID COORDINATE\n COORDINATES THAT YOU HAVE FIRED UPON BEFORE ARE INVALID"
-        puts "Try agian"
-        print ">"
-        coordinate = user_input
-        if @computer_board.valid_coordinate?(coordinate) == true
+      while true
+
+        if @computer_board.cells.include?(coordinate.to_sym) && !@computer_board.get_cells_not_fired_upon.include?(coordinate)
+          puts "You have already fired on that cell"
+          puts "Try agian"
+          print ">"
+          coordinate = user_input
+
+        elsif !@computer_board.cells.include?(coordinate.to_sym)
+
+          puts "INVALID COORDINATE"
+          puts "Try agian"
+          print ">"
+          coordinate = user_input
+
+        elsif @computer_board.valid_coordinate?(coordinate) == true
           fire(@computer_board, coordinate)
           break
         end
