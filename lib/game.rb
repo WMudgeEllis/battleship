@@ -11,22 +11,10 @@ class Game
     @cells_shot = []
   end
 
-  def all_user_sunk?
-    @user_ships.all? do |ship|
-      ship.sunk? == true
-    end
-  end
-
-  def all_comp_sunk?
-    @computer_ships.all? do |ship|
-      ship.sunk? == true
-    end
-  end
-
   def start
     puts "Welcome to BATTLESHIP \n would you like to play a game? \n y/n?"
     print '>'
-    input = gets.chomp
+    input = user_input
     if input == 'y'
       setup
     elsif input == 'n'
@@ -37,7 +25,7 @@ class Game
   end
 
   def setup
-    100.times {puts "\n"}
+    50.times {puts "\n"}
     place_comp_ships
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
@@ -45,11 +33,11 @@ class Game
     puts "========== USER BOARD =========="
     puts @user_board.render
     place_ships(@user_ships[0])
-    100.times {puts "\n"}
+    50.times {puts "\n"}
     puts "========== USER BOARD =========="
     puts @user_board.render(true)
     place_ships(@user_ships[1])
-    100.times {puts "\n"}
+    50.times {puts "\n"}
 
     gameplay
   end
@@ -62,36 +50,36 @@ class Game
       puts @user_board.render(true)
       puts "Please select a cell to fire upon"
       print '>'
-      input = gets.chomp
+      input = user_input
       user_fire(input)
       computer_fire
-      100.times {puts "\n"}
+      50.times {puts "\n"}
       shots_feedback
     end
 
     if all_user_sunk?
-      comp_wins
+      50.times {puts "\n"}
+      puts "Ha,ha I WIN"
+
+      Game.new.start
     elsif all_comp_sunk?
-      user_wins
+      50.times {puts "\n"}
+      puts "Congratulations! You win!"
+
+      Game.new.start
     end
   end
 
-  def comp_wins
-    puts "Ha,ha I WIN \n would you like to play again? \n y/n"
-    print ">"
-
-    input = gets.chomp
-
-    Game.new.start
+  def all_user_sunk?
+    @user_ships.all? do |ship|
+      ship.sunk? == true
+    end
   end
 
-  def user_wins
-    puts "Congratulations! You WIN! \n would you like to play again? \n y/n"
-    print ">"
-
-    input = gets.chomp
-
-    Game.new.start
+  def all_comp_sunk?
+    @computer_ships.all? do |ship|
+      ship.sunk? == true
+    end
   end
 
   def user_input
@@ -99,24 +87,28 @@ class Game
   end
 
   def place_ships(ship)
-    puts "Enter the squares for the #{ship.name} it is #{ship.length} cells long:" #need to figure out a retry
+    puts "Enter the squares for the #{ship.name} it is #{ship.length} cells long:"
     print '>'
     user_arr = user_input.split(', ')
 
     if @user_board.valid_placement?(ship, user_arr)
       place_user_ships(ship, user_arr)
     else
-      while place_user_ships(ship, user_arr) == false
-        puts "Try again, incorrect or invalid coordinates."
-        print '>'
-        user_arr = user_input.split(', ')
-        if @user_board.valid_placement?(ship, user_arr) == true
-          place_user_ships(ship, user_arr)
-          break
-        end
-      end
+      user_invalid_placement(ship, user_arr)
     end
     puts @user_board.render(true)
+  end
+
+  def user_invalid_placement(ship, user_arr)
+    while place_user_ships(ship, user_arr) == false
+      puts "Try again, incorrect or invalid coordinates."
+      print '>'
+      user_arr = user_input.split(', ')
+      if @user_board.valid_placement?(ship, user_arr) == true
+        place_user_ships(ship, user_arr)
+        break
+      end
+    end
   end
 
   def place_user_ships(ship, array)
@@ -168,25 +160,27 @@ class Game
     if @computer_board.valid_coordinate?(coordinate)
       fire(@computer_board, coordinate)
     else
-      while true
+      user_invalid_coordinate(coordinate)
+    end
+  end
 
-        if @computer_board.cells.include?(coordinate.to_sym) && !@computer_board.get_cells_not_fired_upon.include?(coordinate)
-          puts "You have already fired on that cell"
-          puts "Try agian"
-          print ">"
-          coordinate = user_input
+  def user_invalid_coordinate(coordinate)
+    while true
+      if @computer_board.cells.include?(coordinate.to_sym) && !@computer_board.get_cells_not_fired_upon.include?(coordinate)
+        puts "You have already fired on that cell"
+        puts "Try agian"
+        print ">"
+        coordinate = user_input
 
-        elsif !@computer_board.cells.include?(coordinate.to_sym)
+      elsif !@computer_board.cells.include?(coordinate.to_sym)
+        puts "INVALID COORDINATE"
+        puts "Try agian"
+        print ">"
+        coordinate = user_input
 
-          puts "INVALID COORDINATE"
-          puts "Try agian"
-          print ">"
-          coordinate = user_input
-
-        elsif @computer_board.valid_coordinate?(coordinate) == true
-          fire(@computer_board, coordinate)
-          break
-        end
+      elsif @computer_board.valid_coordinate?(coordinate) == true
+        fire(@computer_board, coordinate)
+        break
       end
     end
   end
@@ -195,5 +189,4 @@ class Game
     array = @user_board.get_cells_not_fired_upon
     fire(@user_board, array.shuffle.first)
   end
-
 end

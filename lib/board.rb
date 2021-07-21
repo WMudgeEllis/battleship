@@ -1,8 +1,6 @@
-require 'pry'
 class Board
-    attr_reader :cells#remeber to put back cells
+    attr_reader :cells
     Rows = ['A', 'B', 'C', 'D']
-
     Columns = [1, 2, 3, 4]
 
   def initialize
@@ -36,33 +34,18 @@ class Board
     end
   end
 
-  def split_array(arr)
-    arr.map do |x|
-      x.split("")
-    end
-  end
-
-  def letter_array(arr)
-    split_array(arr).map do |x|
-      x.shift
-    end
-  end
-
   def reversed_and_sorted_coords
-    reversed = []
-
-    ('A1'..'D4').each do |x|
-      reversed << x.reverse!
-    end
-    reversed.sort
+    ('A1'..'D4').map do |coordinate|
+      coordinate.reverse!
+    end.sort
   end
 
   def row_possible_range(ship)
-    sorted = []
-    reversed_and_sorted_coords.each do |x|
-      sorted << x.reverse
+    sorted = reversed_and_sorted_coords.map do |coordinate|
+      coordinate.reverse
     end
-    x = sorted.each_cons(ship.length).map do |poss_arr|
+
+    sorted.each_cons(ship.length).map do |poss_arr|
       poss_arr
     end
   end
@@ -88,26 +71,20 @@ class Board
     end
   end
 
-  def cell_values
-    @cells.values
-  end
 
-  def cell_keys
-    @cells.keys
+  def get_cells_not_fired_upon
+    not_fired_upon_cells = @cells.values.find_all do |cells|
+      !cells.fired_upon?
+    end
+
+    not_fired_upon_cells.map do |cell|
+      cell.coordinate
+    end
   end
 
   def get_cells_not_empty
-    cell_values.find_all do |cells|
+    @cells.values.find_all do |cells|
       !cells.empty?
-    end
-  end
-
-  def get_cells_not_fired_upon
-    x = cell_values.find_all do |cells|
-      !cells.fired_upon?
-    end
-    x.map do |x|
-      x.coordinate
     end
   end
 
@@ -127,13 +104,13 @@ class Board
       array.each do |coords|
         @cells[coords.to_sym].place_ship(ship)
       end
-    elsif !valid_placement?(ship, array)
-      return false
+    else
+      false
     end
   end
 
   def row_output(range, show_ship=false)
-    cell_values[range].map do |cell|
+    @cells.values[range].map do |cell|
       cell.render(show_ship)
     end.join(' ')
   end
@@ -145,20 +122,20 @@ class Board
   def all_possible_valid_columns(ship)
     all_valid_columns = []
     if ship.length == 3
-      x = 0
-      y = 1
-      while x != 40
-        all_valid_columns << valid_column_range(ship)[x..y]
-        x += 10
-        y += 10
+      index_start = 0
+      index_end = 1
+      while index_start != 40
+        all_valid_columns << valid_column_range(ship)[index_start..index_end]
+        index_start += 10
+        index_end += 10
       end
     elsif ship.length == 2
-      x = 0
-      y = 2
-      while x != 40
-        all_valid_columns << valid_column_range(ship)[x..y]
-        x += 10
-        y += 10
+      index_start = 0
+      index_end = 2
+      while index_start != 40
+        all_valid_columns << valid_column_range(ship)[index_start..index_end]
+        index_start += 10
+        index_end += 10
       end
     end
     all_valid_columns.flatten(1)
@@ -183,11 +160,4 @@ class Board
   def all_valid_placements(ship)
     all_possible_valid_columns(ship) + all_possible_valid_rows(ship)
   end
-
-
-
-
-
-
-
 end

@@ -29,7 +29,7 @@ RSpec.describe Game do
 
       expect(game.place_comp_ships).to eq(false)
 
-      #trust us its random, pretty please
+      #trust us it is random, pretty please
     end
 
     it 'can fire' do
@@ -40,7 +40,6 @@ RSpec.describe Game do
       game.fire(game.computer_board, 'A1')
 
       expect(game.computer_board.cells[:A1].fired_upon?).to eq(true)
-
     end
 
     it 'user can fire' do
@@ -72,7 +71,6 @@ RSpec.describe Game do
 
       game.computer_fire
       game.computer_fire
-      # require "pry"; binding.pry
       game.shots_feedback
     end
 
