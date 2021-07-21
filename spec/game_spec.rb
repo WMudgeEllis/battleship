@@ -72,7 +72,6 @@ RSpec.describe Game do
 
       game.computer_fire
       game.computer_fire
-      # require "pry"; binding.pry
       game.shots_feedback
     end
 

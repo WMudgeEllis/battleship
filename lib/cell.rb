@@ -1,7 +1,5 @@
-require 'pry'
 class Cell
   attr_reader :coordinate, :ship, :fired_upon
-
 
   def initialize(coordinate)
     @coordinate = coordinate
@@ -23,7 +21,7 @@ class Cell
 
   def fire_upon
     @fired_upon = true
-    if not empty? 
+    if not empty?
       @ship.hit
     end
   end
@@ -43,5 +41,4 @@ class Cell
       '.'
     end
   end
-
 end
