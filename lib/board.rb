@@ -179,19 +179,19 @@ class Board
   end
 
   def all_possible_valid_rows(ship)
-    all_valid_columns = []
+    all_valid_rows = []
     if ship.length == 2
-      all_valid_columns << row_possible_range(ship)[3..5]
-      all_valid_columns << row_possible_range(ship)[7..9]
-      all_valid_columns << row_possible_range(ship)[11..13]
-      all_valid_columns << row_possible_range(ship)[15..17]
+      all_valid_rows << row_possible_range(ship)[3..5]
+      all_valid_rows << row_possible_range(ship)[7..9]
+      all_valid_rows << row_possible_range(ship)[11..13]
+      all_valid_rows << row_possible_range(ship)[15..17]
     elsif ship.length == 3
-       all_valid_columns << row_possible_range(ship)[3..4]
-       all_valid_columns << row_possible_range(ship)[7..8]
-       all_valid_columns << row_possible_range(ship)[11..12]
-       all_valid_columns << row_possible_range(ship)[15..16]
+       all_valid_rows << row_possible_range(ship)[3..4]
+       all_valid_rows << row_possible_range(ship)[7..8]
+       all_valid_rows << row_possible_range(ship)[11..12]
+       all_valid_rows << row_possible_range(ship)[15..16]
     end
-    all_valid_columns.flatten(1)
+    all_valid_rows.flatten(1)
 
   end
 

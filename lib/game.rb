@@ -32,7 +32,7 @@ class Game
     elsif input == 'n'
       puts "See you next time!"
     else
-      'INVALID INPUT, PLEASE RERUN PROGRAM'
+      puts 'INVALID INPUT, PLEASE RERUN PROGRAM'
     end
   end
 
@@ -64,14 +64,38 @@ class Game
       shots_feedback
     end
 
+    if all_user_sunk?
+      comp_wins
+    elsif all_comp_sunk?
+      user_wins
+    end
   end
+
+  def comp_wins
+    puts "Ha,ha I WIN \n would you like to play again? \n y/n"
+    print ">"
+
+    input = gets.chomp
+
+    Game.new.start
+  end
+
+  def user_wins
+    puts "Congratulations! You WIN! \n would you like to play again? \n y/n"
+    print ">"
+
+    input = gets.chomp
+
+    Game.new.start
+  end
+
 
   def user_input
     gets.chomp
   end
 
   def place_ships(ship)
-    puts "Enter the squares for the #{ship.name} it is (#{ship.length}) long:" #need to figure out a retry
+    puts "Enter the squares for the #{ship.name} it is #{ship.length} cells long:" #need to figure out a retry
     print '>'
     user_arr = user_input.split(', ')
 
@@ -82,9 +106,10 @@ class Game
         puts "Try again, incorrect or invalid coordinates."
         print '>'
         user_arr = user_input.split(', ')
-        place_user_ships(ship, user_arr)
-        next if !place_user_ships(ship, user_arr)
+        if @user_board.valid_placement?(ship, user_arr) == true
           place_user_ships(ship, user_arr)
+          break
+        end
       end
     end
     puts @user_board.render(true)
@@ -97,14 +122,20 @@ class Game
 
 
   def place_comp_ships
+    # require "pry"; binding.pry
     @computer_ships.each do |ship|
+      # require "pry"; binding.pry
       @computer_board.place(ship, random_valid_array(ship))
     end
   end
 
 
   def random_valid_array(ship)
-    @computer_board.all_valid_placements(ship).shuffle.first
+    no_overlap = @computer_board.all_valid_placements(ship).find_all do |placement|
+      @computer_board.valid_placement?(ship, placement)
+    end
+    no_overlap.shuffle.first
+    # @computer_board.all_valid_placements(ship).shuffle.first
   end
 
   def record_shot(board, coordinate)
@@ -142,7 +173,7 @@ class Game
       fire(@computer_board, coordinate)
     else
       while @computer_board.valid_coordinate?(coordinate) != true
-        puts "INVALID COORDINATE"
+        puts "INVALID COORDINATE\n COORDINATES THAT YOU HAVE FIRED UPON BEFORE ARE INVALID"
         puts "Try agian"
         print ">"
         coordinate = user_input

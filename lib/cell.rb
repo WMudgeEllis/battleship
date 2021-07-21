@@ -32,7 +32,7 @@ class Cell
 # && !empty?
   def render(ship_present=false)
     # binding.pry
-    if ship_present && !empty? # Dosent pass cell test but passes board test, optional.include? dosent pass cell test but dose pass board
+    if ship_present && !empty? && !fired_upon? # Dosent pass cell test but passes board test, optional.include? dosent pass cell test but dose pass board
       'S'
     elsif fired_upon? && empty?
       'M'

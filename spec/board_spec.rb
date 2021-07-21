@@ -40,7 +40,7 @@ RSpec.describe Board do
         expect(board.valid_coordinate?('E1')).to eq(false)
         expect(board.valid_coordinate?('A22')).to eq(false)
       end
-      
+
       it "can fetch all cels not fired upon" do
         board = Board.new
 
@@ -78,6 +78,8 @@ RSpec.describe Board do
           expect(board.valid_placement?(cruiser, ['B2', 'B2', 'B2'])).to eq(false)
           expect(board.valid_placement?(submarine, ['A2', 'B2'])).to eq(true)
           expect(board.valid_placement?(cruiser, ['A4', 'B4', 'C4'])).to eq(true)
+          expect(board.valid_placement?(cruiser, ['A1', 'B1', 'C1'])).to eq(true)
+
 
         end
       context 'placing ships' do
